@@ -36,8 +36,14 @@
     <p>You can now open the app and sign in.</p>
   </div>
   <script>
-    // Try to open the app via deep link (works if app is installed on this device)
-    window.location.href = 'knowear://login' + window.location.search;
+    // Try to open the app via deep link using a hidden iframe (won't break the page if app isn't installed)
+    try {
+      var iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = 'knowear://login' + window.location.search;
+      document.body.appendChild(iframe);
+      setTimeout(function() { document.body.removeChild(iframe); }, 2000);
+    } catch(e) {}
   </script>
 </body>
 </html>
