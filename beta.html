@@ -1049,6 +1049,66 @@
             z-index: 1;
         }
 
+        .cta-form {
+            display: flex;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+            justify-content: center;
+        }
+
+        .cta-input {
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            width: 280px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-input::placeholder {
+            color: rgba(255,255,255,0.35);
+        }
+
+        .cta-input:focus {
+            border-color: rgba(139,92,246,0.5);
+            box-shadow: 0 0 20px rgba(139,92,246,0.15);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .cta-button[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .cta-success {
+            color: #34D399;
+            font-size: 15px;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .cta-error {
+            color: #F472B6;
+            font-size: 13px;
+            margin-top: 12px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* ===== FOOTER ===== */
         footer {
             position: relative;
@@ -1134,6 +1194,8 @@
             .counter-display { padding: 14px 22px; }
             .counter-number { font-size: 28px; }
             .cta-card { padding: 40px 24px; }
+            .cta-form { flex-direction: column; align-items: center; }
+            .cta-input { width: 100%; max-width: 320px; }
             .different-section { padding: 60px 20px 40px; }
             .statement-card { padding: 18px 20px 18px 23px; }
             .ticker-content span { font-size: 13px; padding: 0 16px; }
@@ -1377,7 +1439,12 @@
                     We're putting the finishing touches on something special.
                     When the beta drops, Founding Members get in first — before the public, before the waitlist, before anyone.
                 </p>
-                <div class="cta-button"><span>Get Early Access</span></div>
+                <form class="cta-form" id="signup-form">
+                    <input type="email" class="cta-input" id="signup-email" placeholder="Enter your email" required autocomplete="email">
+                    <button type="submit" class="cta-button" id="signup-btn"><span>Get Early Access</span></button>
+                </form>
+                <p class="cta-success" id="signup-success" style="display:none;">You're in! We'll notify you when the beta drops.</p>
+                <p class="cta-error" id="signup-error" style="display:none;"></p>
                 <p class="cta-note">We'll notify you the moment the beta goes live.</p>
             </div>
         </section>
@@ -2381,6 +2448,9 @@
 
     </script>
 
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <!-- Non-module JS for UI interactions -->
     <script>
         // Scroll Reveal (staggered children + scale variants)
@@ -2403,9 +2473,75 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal-stagger').forEach(el => staggerObserver.observe(el));
 
+        // ===== SUPABASE INIT =====
+        const _supabase = supabase.createClient(
+            'https://xwzyqwgemwqgjuvbkpcy.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3enlxd2dlbXdxZ2p1dmJrcGN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MTY2NDksImV4cCI6MjA3MTE5MjY0OX0.-6vrEbiERWBfFpn1ZeOvhCPbQKy0FBIoyNyATgl603o'
+        );
+
+        // ===== EMAIL SIGNUP =====
+        const signupForm = document.getElementById('signup-form');
+        const signupEmail = document.getElementById('signup-email');
+        const signupBtn = document.getElementById('signup-btn');
+        const signupSuccess = document.getElementById('signup-success');
+        const signupError = document.getElementById('signup-error');
+
+        if (signupForm) {
+            signupForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = signupEmail.value.trim().toLowerCase();
+                if (!email) return;
+
+                signupBtn.disabled = true;
+                signupBtn.querySelector('span').textContent = 'Submitting...';
+                signupError.style.display = 'none';
+
+                try {
+                    const { error } = await _supabase
+                        .from('founding_members')
+                        .insert({ email: email });
+
+                    if (error) {
+                        if (error.code === '23505') {
+                            signupError.textContent = "You're already on the list!";
+                        } else {
+                            signupError.textContent = 'Something went wrong. Please try again.';
+                        }
+                        signupError.style.display = 'block';
+                        signupBtn.disabled = false;
+                        signupBtn.querySelector('span').textContent = 'Get Early Access';
+                    } else {
+                        signupForm.style.display = 'none';
+                        signupSuccess.style.display = 'block';
+                        document.querySelector('.cta-note').style.display = 'none';
+                        // Update counter
+                        fetchAndUpdateCounter();
+                    }
+                } catch (err) {
+                    signupError.textContent = 'Something went wrong. Please try again.';
+                    signupError.style.display = 'block';
+                    signupBtn.disabled = false;
+                    signupBtn.querySelector('span').textContent = 'Get Early Access';
+                }
+            });
+        }
+
+        // ===== LIVE COUNTER =====
+        let counterTarget = 73; // fallback
+        async function fetchAndUpdateCounter() {
+            try {
+                const { count, error } = await _supabase
+                    .from('founding_members')
+                    .select('*', { count: 'exact', head: true });
+                if (!error && count !== null) {
+                    counterTarget = Math.max(0, 100 - count);
+                }
+            } catch (e) { /* use fallback */ }
+        }
+        fetchAndUpdateCounter();
+
         // Counter Animation
         const counterEl = document.getElementById('counter');
-        const counterTarget = 73;
         let counterDone = false;
         const counterObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
