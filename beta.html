@@ -1093,24 +1093,41 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
+            #scene-canvas {
+                position: absolute;
+                height: 45vh;
+                background: var(--bg);
+            }
             .god-ray-1, .god-ray-2, .god-ray-3 {
                 left: 50%;
-                top: 35%;
+                top: 20%;
             }
             nav { padding: 14px 20px; }
             .nav-links { gap: 16px; }
             .nav-links a { font-size: 13px; }
             .hero {
-                padding: 90px 24px 60px;
+                padding: 24px;
                 padding-right: 24px;
+                padding-top: 45vh;
                 align-items: center;
                 text-align: center;
-                min-height: 60vh;
+                min-height: auto;
                 justify-content: flex-start;
-                padding-top: 100px;
+            }
+            .hero-exclusive, .hero h1, .hero-tagline, .hero-subtext, .scroll-cta {
+                position: relative;
+                z-index: 3;
             }
             .scroll-cta {
-                left: 50%;
+                position: relative;
+                bottom: auto;
+                left: auto;
+                transform: none;
+                margin-top: 32px;
+                animation: none;
+            }
+            .scroll-cta:hover {
+                transform: none;
             }
             section { padding: 60px 20px; }
             .features-grid, .perks-grid { grid-template-columns: 1fr; }
@@ -1408,13 +1425,14 @@
 
     const scene = new THREE.Scene();
 
-    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+    const canvasH = isMobile ? window.innerHeight * 0.45 : window.innerHeight;
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / canvasH, 0.1, 100);
     // Camera centered; wardrobe offset to the right in world space
-    camera.position.set(0, 0.5, isMobile ? 10 : 9.5);
-    camera.lookAt(0, -0.2, 0);
+    camera.position.set(0, isMobile ? 1.0 : 0.5, isMobile ? 11 : 9.5);
+    camera.lookAt(0, isMobile ? 0.2 : -0.2, 0);
 
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(window.innerWidth, canvasH);
     renderer.setPixelRatio(pixelRatio);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.0;
@@ -1459,18 +1477,21 @@
     })();
 
     // ========================
-    // POST-PROCESSING (BLOOM)
+    // POST-PROCESSING (BLOOM) — desktop only, causes bg tint on mobile
     // ========================
-    const composer = new EffectComposer(renderer);
-    composer.addPass(new RenderPass(scene, camera));
+    let composer = null;
+    if (!isMobile) {
+        composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
 
-    const bloomPass = new UnrealBloomPass(
-        new THREE.Vector2(window.innerWidth, window.innerHeight),
-        0.15,  // strength — subtle glow, not a white wash
-        0.2,   // radius — tighter bloom spread
-        0.75   // threshold — only the brightest highlights bloom
-    );
-    composer.addPass(bloomPass);
+        const bloomPass = new UnrealBloomPass(
+            new THREE.Vector2(window.innerWidth, window.innerHeight),
+            0.15,  // strength — subtle glow, not a white wash
+            0.2,   // radius — tighter bloom spread
+            0.75   // threshold — only the brightest highlights bloom
+        );
+        composer.addPass(bloomPass);
+    }
 
     // ========================
     // LIGHTING (realistic studio setup)
@@ -1933,7 +1954,7 @@
     // ========================
     // COSMIC PARTICLE SYSTEM
     // ========================
-    const PARTICLE_COUNT = isMobile ? 800 : 1600;
+    const PARTICLE_COUNT = isMobile ? 400 : 1600;
 
     // Attributes
     const pPositions = new Float32Array(PARTICLE_COUNT * 3);
@@ -1971,12 +1992,12 @@
 
         // Velocity: forward (positive Z) through door, with wide symmetric X spread
         // Bias leftward (negative X) to compensate for wardrobe being offset right
-        const speed = 0.4 + Math.random() * 1.0;
-        const xSpread = (Math.random() - 0.5) * 2.0;  // wide symmetric horizontal spread
+        const speed = isMobile ? (0.6 + Math.random() * 1.2) : (0.4 + Math.random() * 1.0);
+        const xSpread = (Math.random() - 0.5) * (isMobile ? 3.0 : 2.0);  // wider on mobile
         const leftBias = isMobile ? 0 : -0.3;          // push toward text side on desktop
         pVelocities[i * 3]     = (xSpread + leftBias) * speed;
         pVelocities[i * 3 + 1] = (Math.random() - 0.3) * speed * 0.3 + 0.1; // slight upward bias
-        pVelocities[i * 3 + 2] = (0.5 + Math.random() * 0.8) * speed;  // strong forward push
+        pVelocities[i * 3 + 2] = (0.5 + Math.random() * (isMobile ? 1.2 : 0.8)) * speed;  // stronger forward push on mobile
 
         // Color
         const c = COLORS[Math.floor(Math.random() * COLORS.length)];
@@ -1985,7 +2006,11 @@
         pColors[i * 3 + 2] = c[2];
 
         // Size — much smaller, delicate sparkles; rare larger ones
-        pSizes[i] = Math.random() < 0.08 ? (1.5 + Math.random() * 2) : (0.4 + Math.random() * 1.0);
+        if (isMobile) {
+            pSizes[i] = Math.random() < 0.05 ? (0.8 + Math.random() * 1.0) : (0.2 + Math.random() * 0.6);
+        } else {
+            pSizes[i] = Math.random() < 0.08 ? (1.5 + Math.random() * 2) : (0.4 + Math.random() * 1.0);
+        }
 
         pAlphas[i] = 0;
         pLifetimes[i] = Math.random() * -2; // stagger spawn
@@ -2041,7 +2066,7 @@
     // ========================
     // NEBULA (large diffuse glowing particles)
     // ========================
-    const NEBULA_COUNT = isMobile ? 30 : 60;
+    const NEBULA_COUNT = isMobile ? 15 : 60;
     const nPositions = new Float32Array(NEBULA_COUNT * 3);
     const nColors = new Float32Array(NEBULA_COUNT * 3);
     const nSizes = new Float32Array(NEBULA_COUNT);
@@ -2064,7 +2089,7 @@
         const c = COLORS[Math.floor(Math.random() * 3)]; // only brand colors
         nColors[i * 3] = c[0]; nColors[i * 3 + 1] = c[1]; nColors[i * 3 + 2] = c[2];
 
-        nSizes[i] = 15 + Math.random() * 30;
+        nSizes[i] = isMobile ? (5 + Math.random() * 10) : (15 + Math.random() * 30);
         nAlphas[i] = 0;
         nLifetimes[i] = Math.random() * -1;
         nMaxLifetimes[i] = 4 + Math.random() * 5;
@@ -2161,7 +2186,8 @@
             if (nLifetimes[i] > nMaxLifetimes[i]) { resetNebula(i); continue; }
 
             const life = nLifetimes[i] / nMaxLifetimes[i];
-            nAlphas[i] = life < 0.15 ? life / 0.15 : (life > 0.5 ? (1 - life) / 0.5 : 1);
+            const maxAlpha = isMobile ? 0.35 : 1;
+            nAlphas[i] = (life < 0.15 ? life / 0.15 : (life > 0.5 ? (1 - life) / 0.5 : 1)) * maxAlpha;
 
             nPositions[i * 3]     += nVelocities[i * 3] * delta;
             nPositions[i * 3 + 1] += nVelocities[i * 3 + 1] * delta;
@@ -2195,7 +2221,9 @@
             rightDoorGroup.rotation.y = RIGHT_DOOR_TARGET * doorProgress;
 
             // Interior light — soft glow, not intense enough to blast the doors
-            const lightIntensity = doorProgress * (1.2 + Math.sin(time * 1.2) * 0.3);
+            const maxGlow = isMobile ? 0.6 : 1.2;
+            const glowWave = isMobile ? 0.1 : 0.3;
+            const lightIntensity = doorProgress * (maxGlow + Math.sin(time * 1.2) * glowWave);
             interiorLight.intensity = lightIntensity;
             interiorLight.color.setHSL(0.75 + Math.sin(time * 0.3) * 0.05, 0.7, 0.6);
 
@@ -2326,11 +2354,11 @@
         }
 
         // Scroll-based canvas fade
-        const heroH = window.innerHeight;
+        const heroH = isMobile ? window.innerHeight * 0.45 : window.innerHeight;
         const scrollFrac = Math.min(scrollY / heroH, 1);
-        canvas.style.opacity = 1 - scrollFrac * 0.8;
+        canvas.style.opacity = 1 - scrollFrac * (isMobile ? 1.2 : 0.8);
 
-        composer.render();
+        if (composer) composer.render(); else renderer.render(scene, camera);
     }
 
     animate();
@@ -2342,12 +2370,13 @@
         const w = window.innerWidth;
         const h = window.innerHeight;
         const mobile = w < 768;
-        camera.aspect = w / h;
-        camera.position.set(0, 0.5, mobile ? 10 : 9.5);
-        camera.lookAt(0, -0.2, 0);
+        const ch = mobile ? h * 0.45 : h;
+        camera.aspect = w / ch;
+        camera.position.set(0, mobile ? 1.0 : 0.5, mobile ? 11 : 9.5);
+        camera.lookAt(0, mobile ? 0.2 : -0.2, 0);
         camera.updateProjectionMatrix();
-        renderer.setSize(w, h);
-        composer.setSize(w, h);
+        renderer.setSize(w, ch);
+        if (composer) composer.setSize(w, ch);
     });
 
     </script>
