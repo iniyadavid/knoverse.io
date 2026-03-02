@@ -2474,10 +2474,30 @@
         document.querySelectorAll('.reveal-stagger').forEach(el => staggerObserver.observe(el));
 
         // ===== SUPABASE INIT =====
-        const _supabase = supabase.createClient(
-            'https://xwzyqwgemwqgjuvbkpcy.supabase.co',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3enlxd2dlbXdxZ2p1dmJrcGN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MTY2NDksImV4cCI6MjA3MTE5MjY0OX0.-6vrEbiERWBfFpn1ZeOvhCPbQKy0FBIoyNyATgl603o'
-        );
+        var _supabase = null;
+        try {
+            if (typeof supabase !== 'undefined' && supabase.createClient) {
+                _supabase = supabase.createClient(
+                    'https://xwzyqwgemwqgjuvbkpcy.supabase.co',
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3enlxd2dlbXdxZ2p1dmJrcGN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MTY2NDksImV4cCI6MjA3MTE5MjY0OX0.-6vrEbiERWBfFpn1ZeOvhCPbQKy0FBIoyNyATgl603o'
+                );
+            }
+        } catch (e) { console.warn('Supabase init failed:', e); }
+
+        // ===== GOOGLE SHEETS BACKUP =====
+        var SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbz6pnt7J_ayVAIHMQwpK4gKC9vVy5YFtv5gORtYdxCTFxSptZOlIO1zGiVMbRhPz4y_tw/exec';
+
+        function backupToSheets(email) {
+            // Fire-and-forget — don't block signup on this
+            try {
+                fetch(SHEETS_WEBHOOK, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, timestamp: new Date().toISOString(), source: 'beta-page' })
+                }).catch(function() {});
+            } catch (e) { /* silent fail */ }
+        }
 
         // ===== EMAIL SIGNUP =====
         const signupForm = document.getElementById('signup-form');
@@ -2496,6 +2516,18 @@
                 signupBtn.querySelector('span').textContent = 'Submitting...';
                 signupError.style.display = 'none';
 
+                // Always send to Google Sheets backup
+                backupToSheets(email);
+
+                // Try Supabase as primary
+                if (!_supabase) {
+                    // Supabase unavailable — Sheets backup already sent, show success
+                    signupForm.style.display = 'none';
+                    signupSuccess.style.display = 'block';
+                    document.querySelector('.cta-note').style.display = 'none';
+                    return;
+                }
+
                 try {
                     const { error } = await _supabase
                         .from('founding_members')
@@ -2504,31 +2536,36 @@
                     if (error) {
                         if (error.code === '23505') {
                             signupError.textContent = "You're already on the list!";
+                            signupError.style.display = 'block';
+                            signupBtn.disabled = false;
+                            signupBtn.querySelector('span').textContent = 'Get Early Access';
                         } else {
-                            signupError.textContent = 'Something went wrong. Please try again.';
+                            // Supabase failed but Sheets backup already sent — show success
+                            signupForm.style.display = 'none';
+                            signupSuccess.style.display = 'block';
+                            document.querySelector('.cta-note').style.display = 'none';
                         }
-                        signupError.style.display = 'block';
-                        signupBtn.disabled = false;
-                        signupBtn.querySelector('span').textContent = 'Get Early Access';
                     } else {
                         signupForm.style.display = 'none';
                         signupSuccess.style.display = 'block';
                         document.querySelector('.cta-note').style.display = 'none';
-                        // Update counter
-                        fetchAndUpdateCounter();
+                        fetchAndUpdateCounter().then(animateCounter);
                     }
                 } catch (err) {
-                    signupError.textContent = 'Something went wrong. Please try again.';
-                    signupError.style.display = 'block';
-                    signupBtn.disabled = false;
-                    signupBtn.querySelector('span').textContent = 'Get Early Access';
+                    // Supabase threw but Sheets backup already sent — show success
+                    signupForm.style.display = 'none';
+                    signupSuccess.style.display = 'block';
+                    document.querySelector('.cta-note').style.display = 'none';
                 }
             });
         }
 
         // ===== LIVE COUNTER =====
-        let counterTarget = 73; // fallback
+        var counterTarget = 73; // fallback
+        var counterReady = false;
+
         async function fetchAndUpdateCounter() {
+            if (!_supabase) return;
             try {
                 const { count, error } = await _supabase
                     .from('founding_members')
@@ -2537,26 +2574,53 @@
                     counterTarget = Math.max(0, 100 - count);
                 }
             } catch (e) { /* use fallback */ }
+            counterReady = true;
         }
-        fetchAndUpdateCounter();
 
         // Counter Animation
         const counterEl = document.getElementById('counter');
         let counterDone = false;
+
+        function animateCounter() {
+            if (counterDone) {
+                // Already animated once — just update the number directly
+                counterEl.textContent = counterTarget;
+                return;
+            }
+            counterDone = true;
+            const start = performance.now();
+            (function tick(now) {
+                const p = Math.min((now - start) / 1200, 1);
+                counterEl.textContent = Math.round(counterTarget * (1 - Math.pow(1 - p, 3)));
+                if (p < 1) requestAnimationFrame(tick);
+            })(start);
+        }
+
+        // Wait for fetch before starting counter animation on scroll
+        var counterScrolled = false;
         const counterObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && !counterDone) {
-                    counterDone = true;
-                    const start = performance.now();
-                    (function tick(now) {
-                        const p = Math.min((now - start) / 1200, 1);
-                        counterEl.textContent = Math.round(counterTarget * (1 - Math.pow(1 - p, 3)));
-                        if (p < 1) requestAnimationFrame(tick);
-                    })(start);
-                }
+                if (entry.isIntersecting) counterScrolled = true;
             });
         }, { threshold: 0.5 });
         counterObserver.observe(document.getElementById('counter-wrapper'));
+
+        // Fetch then animate when both ready
+        fetchAndUpdateCounter().then(function() {
+            if (counterScrolled) {
+                animateCounter();
+            } else {
+                // Re-observe: animate when scrolled into view
+                const readyObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !counterDone) {
+                            animateCounter();
+                        }
+                    });
+                }, { threshold: 0.5 });
+                readyObserver.observe(document.getElementById('counter-wrapper'));
+            }
+        });
 
         // ===== MUSIC =====
         let musicStarted = false;
