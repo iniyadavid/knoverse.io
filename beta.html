@@ -70,7 +70,7 @@
         }
 
         .god-ray.active {
-            opacity: 1;
+            opacity: 0;
         }
 
         .god-ray-1 {
@@ -221,6 +221,60 @@
 
         .nav-links a:hover { color: var(--text); }
 
+        .nav-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 18px;
+            border-radius: 14px;
+            background: rgba(139, 92, 246, 0.12);
+            border: 1px solid transparent;
+            background-image: linear-gradient(rgba(139,92,246,0.12), rgba(139,92,246,0.06)), linear-gradient(135deg, rgba(139,92,246,0.7), rgba(236,72,153,0.5), rgba(6,182,212,0.5));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            margin-left: 8px;
+            box-shadow: 0 0 18px rgba(139,92,246,0.3), 0 0 40px rgba(236,72,153,0.15);
+            animation: counter-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes counter-pulse {
+            0%, 100% {
+                box-shadow: 0 0 18px rgba(139,92,246,0.3), 0 0 40px rgba(236,72,153,0.15);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 28px rgba(139,92,246,0.45), 0 0 60px rgba(236,72,153,0.25), 0 0 80px rgba(6,182,212,0.1);
+                transform: scale(1.03);
+            }
+        }
+
+        .nav-counter-number {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #A78BFA, #EC4899, #06B6D4);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: counter-shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes counter-shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .nav-counter-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.3;
+        }
+
+        .nav-counter-label strong {
+            color: #fff;
+            font-weight: 700;
+        }
+
         /* ===== HERO ===== */
         .hero {
             position: relative;
@@ -245,8 +299,8 @@
         .hero-exclusive .hero-line-1 {
             display: block;
             font-size: clamp(12px, 2.2vw, 22px);
-            font-weight: 500;
-            color: rgba(255,255,255,0.5);
+            font-weight: 600;
+            color: #D4A76A;
             letter-spacing: 3px;
             text-transform: uppercase;
             opacity: 0;
@@ -377,7 +431,7 @@
         }
 
         .hero-tagline {
-            font-size: clamp(20px, 3.5vw, 38px);
+            font-size: clamp(14px, 2vw, 22px);
             font-weight: 600;
             color: var(--text);
             margin-bottom: 16px;
@@ -385,10 +439,154 @@
         }
 
         .hero-subtext {
-            font-size: clamp(13px, 1.4vw, 16px);
-            color: var(--text-secondary);
-            line-height: 1.8;
+            font-size: clamp(11px, 1.2vw, 13px);
+            color: var(--text-muted);
+            line-height: 1.5;
             text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+            margin-top: 4px;
+        }
+
+        /* Hero email signup */
+        .hero-signup {
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-signup-input {
+            padding: 14px 20px;
+            width: 300px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            color: #fff;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .hero-signup-input::placeholder {
+            color: rgba(255,255,255,0.35);
+        }
+
+        .hero-signup-input:focus {
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+
+        .hero-signup-btn {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+        }
+
+        .hero-signup-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Hero signup card wrapper */
+        .hero-signup-card {
+            position: relative;
+            margin-top: 28px;
+            padding: 28px 32px 24px;
+            border-radius: 20px;
+            max-width: 540px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid transparent;
+            background-image: linear-gradient(rgba(255,255,255,0.04), rgba(255,255,255,0.02)), linear-gradient(135deg, rgba(139,92,246,0.55), rgba(236,72,153,0.4), rgba(6,182,212,0.4), rgba(139,92,246,0.55));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow:
+                0 0 25px rgba(139,92,246,0.2),
+                0 0 60px rgba(236,72,153,0.12),
+                0 0 90px rgba(6,182,212,0.08);
+            animation: hero-card-glow 4s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        .hero-signup-card-halo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 180%;
+            border-radius: 50%;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(139,92,246,0.15) 0%,
+                rgba(236,72,153,0.08) 35%,
+                rgba(6,182,212,0.04) 55%,
+                transparent 75%
+            );
+            filter: blur(40px);
+            pointer-events: none;
+            z-index: -1;
+            animation: hero-halo-pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes hero-card-glow {
+            0%, 100% {
+                box-shadow:
+                    0 0 25px rgba(139,92,246,0.2),
+                    0 0 60px rgba(236,72,153,0.12),
+                    0 0 90px rgba(6,182,212,0.08);
+            }
+            50% {
+                box-shadow:
+                    0 0 35px rgba(139,92,246,0.3),
+                    0 0 80px rgba(236,72,153,0.2),
+                    0 0 110px rgba(6,182,212,0.12);
+            }
+        }
+
+        @keyframes hero-halo-pulse {
+            0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+        }
+
+        .hero-cta-subtext {
+            font-size: clamp(13px, 1.3vw, 15px);
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 6px;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+        }
+
+        .hero-signup-note {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        .hero-signup-success,
+        .hero-signup-error {
+            margin-top: 12px;
+            font-size: 14px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-signup-success {
+            color: #10B981;
+        }
+
+        .hero-signup-error {
+            color: #F43F5E;
         }
 
         .scroll-cta {
@@ -992,6 +1190,7 @@
             margin-bottom: 16px;
             position: relative;
             z-index: 1;
+            color: #D4A76A;
         }
 
         .cta-card .cta-subtext {
@@ -1229,8 +1428,10 @@
             <span class="nav-logo-sub">by Knoverse</span>
         </a>
         <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="mailto:support@knoverse.io">Support</a>
+            <div class="nav-counter" id="nav-counter">
+                <span class="nav-counter-number" id="nav-counter-num">0</span>
+                <span class="nav-counter-label">of <strong>100</strong> left</span>
+            </div>
         </div>
     </nav>
 
@@ -1256,14 +1457,23 @@
             </div>
         </div>
         <h1>Knowear</h1>
-        <p class="hero-tagline">Know What to Wear. Every Single Day.</p>
-        <p class="hero-subtext">
-            Forgot you even owned that top?<br>
-            Staring at a full wardrobe with "nothing to wear"?<br>
-            Your wardrobe isn't empty. You just don't know it yet.
-        </p>
+        <p class="hero-tagline">Your AI-powered digital wardrobe — know what you own, plan what to wear.</p>
+        <div class="hero-signup-card">
+            <div class="hero-signup-card-halo"></div>
+            <p class="hero-cta-subtext">
+                We're putting the finishing touches on something special.
+                When the beta drops, Founding Members get in first — before the public, before the waitlist, before anyone.
+            </p>
+            <form class="hero-signup" id="hero-signup-form">
+                <input type="email" class="hero-signup-input" id="hero-signup-email" placeholder="Enter your email" required autocomplete="email">
+                <button type="submit" class="hero-signup-btn">Get Early Access</button>
+            </form>
+            <p class="hero-signup-note">We'll notify you the moment the beta goes live.</p>
+            <p class="hero-signup-success" id="hero-signup-success" style="display:none;">You're in! We'll notify you when the beta drops.</p>
+            <p class="hero-signup-error" id="hero-signup-error" style="display:none;"></p>
+        </div>
         <button class="scroll-cta" id="scroll-cta" onclick="document.querySelector('.content-wrap').scrollIntoView({behavior:'smooth'})">
-            <span>Become a Founding Member</span>
+            <span>Learn more about Knowear</span>
             <div class="arrows">
                 <div class="arrow"></div>
                 <div class="arrow"></div>
@@ -1566,35 +1776,27 @@
     // Neutral ambient fill (no purple tint)
     scene.add(new THREE.AmbientLight(0xffffff, 0.4));
 
+    const wOffsetX = isMobile ? 0 : 3.0;
+
     // Key light (upper right, warm white, casts shadows)
     const keyLight = new THREE.DirectionalLight(0xfff5e8, 1.6);
-    keyLight.position.set(5, 6, 4);
-    keyLight.castShadow = true;
-    keyLight.shadow.mapSize.width = 1024;
-    keyLight.shadow.mapSize.height = 1024;
-    keyLight.shadow.camera.near = 0.5;
-    keyLight.shadow.camera.far = 20;
-    keyLight.shadow.camera.left = -4;
-    keyLight.shadow.camera.right = 4;
-    keyLight.shadow.camera.top = 4;
-    keyLight.shadow.camera.bottom = -4;
-    keyLight.shadow.bias = -0.002;
+    keyLight.position.set(wOffsetX + 3, 6, 4);
+    keyLight.castShadow = false;
     scene.add(keyLight);
 
     // Fill light (opposite side, cool, no shadows)
-    const fillLight = new THREE.DirectionalLight(0xd4e5ff, 0.5);
-    fillLight.position.set(-4, 3, 2);
+    const fillLight = new THREE.DirectionalLight(0xd4e5ff, 1.2);
+    fillLight.position.set(wOffsetX - 3, 5, 4);
     scene.add(fillLight);
 
     // Interior glow (warm light inside the wardrobe) — starts dim, brightens when doors open
     const interiorLight = new THREE.PointLight(0x8B5CF6, 0.3, 6);
-    const wOffsetX = isMobile ? 0 : 3.0;
     interiorLight.position.set(wOffsetX, 0, 0.2);
     scene.add(interiorLight);
 
     // Rim light (behind, subtle edge highlight)
     const rimLight = new THREE.PointLight(0x06B6D4, 0.6, 10);
-    rimLight.position.set(-3, 2, -3);
+    rimLight.position.set(wOffsetX, 2, -3);
     scene.add(rimLight);
 
     // Pink accent from below right (subtle)
@@ -1607,27 +1809,127 @@
     // ========================
     const wardrobeGroup = new THREE.Group();
 
+    // ---- PROCEDURAL WOOD GRAIN TEXTURE ----
+    function createWoodTexture(baseR, baseG, baseB, grainDarkness, size) {
+        const sz = size || 512;
+        const canvas = document.createElement('canvas');
+        canvas.width = sz;
+        canvas.height = sz;
+        const ctx = canvas.getContext('2d');
+
+        // Base wood color fill
+        ctx.fillStyle = `rgb(${baseR},${baseG},${baseB})`;
+        ctx.fillRect(0, 0, sz, sz);
+
+        // Grain lines — vertical with slight waviness
+        for (let i = 0; i < 120; i++) {
+            const x = Math.random() * sz;
+            const thickness = 0.5 + Math.random() * 2.5;
+            const alpha = 0.04 + Math.random() * grainDarkness;
+            const dark = Math.random() > 0.5;
+            ctx.strokeStyle = dark
+                ? `rgba(${baseR * 0.4},${baseG * 0.35},${baseB * 0.3},${alpha})`
+                : `rgba(${Math.min(255, baseR * 1.2)},${Math.min(255, baseG * 1.15)},${Math.min(255, baseB * 1.1)},${alpha * 0.7})`;
+            ctx.lineWidth = thickness;
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            for (let y = 0; y < sz; y += 8) {
+                ctx.lineTo(x + Math.sin(y * 0.015 + i) * 3, y);
+            }
+            ctx.stroke();
+        }
+
+        // Knots (subtle rings)
+        const knotCount = 1 + Math.floor(Math.random() * 2);
+        for (let k = 0; k < knotCount; k++) {
+            const kx = sz * 0.2 + Math.random() * sz * 0.6;
+            const ky = sz * 0.2 + Math.random() * sz * 0.6;
+            for (let r = 8; r < 22; r += 2) {
+                ctx.strokeStyle = `rgba(${baseR * 0.5},${baseG * 0.4},${baseB * 0.3},${0.03 + Math.random() * 0.04})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.ellipse(kx, ky, r * (0.8 + Math.random() * 0.4), r, Math.random() * 0.3, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        }
+
+        const tex = new THREE.CanvasTexture(canvas);
+        tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+        tex.repeat.set(1, 1);
+        return tex;
+    }
+
+    function createWoodNormal(size) {
+        const sz = size || 512;
+        const canvas = document.createElement('canvas');
+        canvas.width = sz;
+        canvas.height = sz;
+        const ctx = canvas.getContext('2d');
+
+        // Neutral normal (128, 128, 255)
+        ctx.fillStyle = 'rgb(128,128,255)';
+        ctx.fillRect(0, 0, sz, sz);
+
+        // Grain grooves
+        for (let i = 0; i < 80; i++) {
+            const x = Math.random() * sz;
+            const thickness = 0.5 + Math.random() * 1.5;
+            ctx.strokeStyle = `rgba(${100 + Math.random() * 40},128,255,${0.15 + Math.random() * 0.2})`;
+            ctx.lineWidth = thickness;
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            for (let y = 0; y < sz; y += 8) {
+                ctx.lineTo(x + Math.sin(y * 0.015 + i) * 3, y);
+            }
+            ctx.stroke();
+        }
+
+        const tex = new THREE.CanvasTexture(canvas);
+        tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+        return tex;
+    }
+
+    // Wood textures for different parts
+    const doorWoodTex = createWoodTexture(100, 118, 150, 0.06, 512);
+    const doorNormalTex = createWoodNormal(512);
+    const panelWoodTex = createWoodTexture(115, 135, 165, 0.05, 512);
+    const panelNormalTex = createWoodNormal(512);
+    const bodyWoodTex = createWoodTexture(90, 108, 140, 0.05, 512);
+    const bodyNormalTex = createWoodNormal(512);
+
     // ---- MATERIALS (PBR — wood and metal, no metalness on wood) ----
     // Wardrobe body: painted/stained wood — matte with subtle lacquer sheen
     const bodyMat = new THREE.MeshPhysicalMaterial({
-        color: 0x3a4560, metalness: 0.0, roughness: 0.55,
+        color: 0x5a6d8a, metalness: 0.0, roughness: 0.55,
         clearcoat: 0.15, clearcoatRoughness: 0.5,
         envMapIntensity: 0.4,
+        map: bodyWoodTex,
+        normalMap: bodyNormalTex,
+        normalScale: new THREE.Vector2(0.3, 0.3),
     });
     const bodyEdge = new THREE.MeshPhysicalMaterial({
-        color: 0x4a5575, metalness: 0.0, roughness: 0.5,
+        color: 0x6a7d9a, metalness: 0.0, roughness: 0.5,
         clearcoat: 0.2, clearcoatRoughness: 0.45,
         envMapIntensity: 0.4,
+        map: panelWoodTex,
+        normalMap: panelNormalTex,
+        normalScale: new THREE.Vector2(0.25, 0.25),
     });
     const doorMat = new THREE.MeshPhysicalMaterial({
-        color: 0x424f68, metalness: 0.0, roughness: 0.5,
+        color: 0x627590, metalness: 0.0, roughness: 0.5,
         clearcoat: 0.18, clearcoatRoughness: 0.5,
         envMapIntensity: 0.4,
+        map: doorWoodTex,
+        normalMap: doorNormalTex,
+        normalScale: new THREE.Vector2(0.4, 0.4),
     });
     const panelMat = new THREE.MeshPhysicalMaterial({
-        color: 0x4e5e78, metalness: 0.0, roughness: 0.48,
+        color: 0x7088a5, metalness: 0.0, roughness: 0.48,
         clearcoat: 0.2, clearcoatRoughness: 0.45,
         envMapIntensity: 0.4,
+        map: panelWoodTex,
+        normalMap: panelNormalTex,
+        normalScale: new THREE.Vector2(0.35, 0.35),
     });
     const interiorMat = new THREE.MeshPhysicalMaterial({
         color: 0xD8C4A0, metalness: 0.0, roughness: 0.8,
@@ -1692,6 +1994,160 @@
     cornice2.position.set(0, H/2 + 0.0, D/2 + 0.03);
     wardrobeGroup.add(cornice2);
 
+    // ---- CROWN ORNAMENTAL TRIM (gold filigree strip on front face) ----
+    const goldTrimMat = new THREE.MeshPhysicalMaterial({
+        color: 0xC4935A, metalness: 0.85, roughness: 0.18,
+        clearcoat: 0.7, clearcoatRoughness: 0.1,
+        envMapIntensity: 1.5,
+    });
+
+    // Ornamental strip across the front of the bonnet
+    const stripY = H / 2 + 0.28;
+    const stripZ = (D + 0.1) / 2 + 0.03;
+
+    // Main horizontal gold band
+    const band = box(W * 0.85, 0.06, 0.025, goldTrimMat);
+    band.position.set(0, stripY, stripZ);
+    wardrobeGroup.add(band);
+
+    // Central oval medallion
+    const medallion = new THREE.Mesh(
+        new THREE.TorusGeometry(0.1, 0.025, 16, 32),
+        goldTrimMat
+    );
+    medallion.position.set(0, stripY + 0.05, stripZ + 0.01);
+    wardrobeGroup.add(medallion);
+    // Medallion center jewel
+    const jewel = new THREE.Mesh(
+        new THREE.SphereGeometry(0.055, 20, 20),
+        new THREE.MeshPhysicalMaterial({
+            color: 0xD4A76A, metalness: 0.9, roughness: 0.1,
+            clearcoat: 1.0, clearcoatRoughness: 0.05,
+            envMapIntensity: 2.0,
+        })
+    );
+    jewel.scale.set(1, 0.85, 0.4);
+    jewel.position.set(0, stripY + 0.05, stripZ + 0.015);
+    wardrobeGroup.add(jewel);
+
+    // Scrollwork curves (tubes along the band, symmetrical)
+    function addScrollCurves(side) {
+        const dir = side;
+        const curves = [
+            // Large outer scroll
+            new THREE.CubicBezierCurve3(
+                new THREE.Vector3(dir * 0.18, stripY + 0.05, stripZ + 0.01),
+                new THREE.Vector3(dir * 0.35, stripY + 0.18, stripZ + 0.02),
+                new THREE.Vector3(dir * 0.55, stripY + 0.16, stripZ + 0.02),
+                new THREE.Vector3(dir * 0.65, stripY + 0.04, stripZ + 0.01)
+            ),
+            // Inner scroll (tighter)
+            new THREE.CubicBezierCurve3(
+                new THREE.Vector3(dir * 0.22, stripY + 0.03, stripZ + 0.01),
+                new THREE.Vector3(dir * 0.35, stripY + 0.12, stripZ + 0.02),
+                new THREE.Vector3(dir * 0.48, stripY + 0.10, stripZ + 0.02),
+                new THREE.Vector3(dir * 0.55, stripY + 0.02, stripZ + 0.01)
+            ),
+            // Bottom swoop
+            new THREE.CubicBezierCurve3(
+                new THREE.Vector3(dir * 0.20, stripY - 0.02, stripZ + 0.01),
+                new THREE.Vector3(dir * 0.35, stripY - 0.10, stripZ + 0.02),
+                new THREE.Vector3(dir * 0.52, stripY - 0.09, stripZ + 0.02),
+                new THREE.Vector3(dir * 0.62, stripY - 0.01, stripZ + 0.01)
+            ),
+            // Spiral termination
+            new THREE.CubicBezierCurve3(
+                new THREE.Vector3(dir * 0.65, stripY + 0.04, stripZ + 0.01),
+                new THREE.Vector3(dir * 0.72, stripY - 0.02, stripZ + 0.015),
+                new THREE.Vector3(dir * 0.68, stripY - 0.08, stripZ + 0.015),
+                new THREE.Vector3(dir * 0.62, stripY - 0.04, stripZ + 0.01)
+            ),
+            // Outer flourish extension
+            new THREE.CubicBezierCurve3(
+                new THREE.Vector3(dir * 0.65, stripY + 0.04, stripZ + 0.01),
+                new THREE.Vector3(dir * 0.78, stripY + 0.10, stripZ + 0.015),
+                new THREE.Vector3(dir * 0.92, stripY + 0.06, stripZ + 0.015),
+                new THREE.Vector3(dir * 1.02, stripY + 0.0, stripZ + 0.01)
+            ),
+        ];
+
+        curves.forEach((curve, i) => {
+            const radius = i === 0 ? 0.014 : i === 4 ? 0.010 : 0.011;
+            const tube = new THREE.Mesh(
+                new THREE.TubeGeometry(curve, 32, radius, 8, false),
+                goldTrimMat
+            );
+            wardrobeGroup.add(tube);
+        });
+
+        // Small leaf shapes along the scrolls
+        for (let i = 0; i < 5; i++) {
+            const t = 0.2 + i * 0.15;
+            const p = curves[0].getPoint(t);
+            const leafGeo = new THREE.SphereGeometry(0.02, 8, 6);
+            const leaf = new THREE.Mesh(leafGeo, goldTrimMat);
+            leaf.scale.set(1.8, 0.8, 0.35);
+            leaf.rotation.z = dir * (-0.5 + i * 0.2);
+            leaf.position.copy(p);
+            leaf.position.z += 0.005;
+            wardrobeGroup.add(leaf);
+        }
+
+        // Small leaf shapes on bottom curve
+        for (let i = 0; i < 4; i++) {
+            const t = 0.2 + i * 0.18;
+            const p = curves[2].getPoint(t);
+            const leafGeo = new THREE.SphereGeometry(0.016, 8, 6);
+            const leaf = new THREE.Mesh(leafGeo, goldTrimMat);
+            leaf.scale.set(1.6, 0.7, 0.35);
+            leaf.rotation.z = dir * (0.3 - i * 0.15);
+            leaf.position.copy(p);
+            leaf.position.z += 0.005;
+            wardrobeGroup.add(leaf);
+        }
+    }
+
+    addScrollCurves(1);   // right side
+    addScrollCurves(-1);  // left side
+
+    // Small rosettes flanking the medallion
+    [-1, 1].forEach(side => {
+        const rx = side * 0.15;
+        // Petals
+        for (let p = 0; p < 6; p++) {
+            const angle = (p / 6) * Math.PI * 2;
+            const petal = new THREE.Mesh(
+                new THREE.SphereGeometry(0.018, 8, 6),
+                goldTrimMat
+            );
+            petal.scale.set(1.5, 0.7, 0.3);
+            petal.position.set(
+                rx + Math.cos(angle) * 0.03,
+                stripY + 0.05 + Math.sin(angle) * 0.03,
+                stripZ + 0.02
+            );
+            petal.rotation.z = angle;
+            wardrobeGroup.add(petal);
+        }
+    });
+
+    // Corner accent pieces (where band meets wardrobe edge)
+    [-1, 1].forEach(side => {
+        const cx = side * W * 0.42;
+        // Vertical accent
+        const vert = box(0.025, 0.12, 0.025, goldTrimMat);
+        vert.position.set(cx, stripY, stripZ);
+        wardrobeGroup.add(vert);
+        // Small diamond
+        const diamond = new THREE.Mesh(
+            new THREE.OctahedronGeometry(0.025, 0),
+            goldTrimMat
+        );
+        diamond.scale.set(1, 1, 0.4);
+        diamond.position.set(cx, stripY + 0.08, stripZ + 0.01);
+        wardrobeGroup.add(diamond);
+    });
+
     // ---- BASE (thick, wider than body) ----
     // Upper base molding
     const base1 = box(W + 0.15, 0.12, D + 0.1, bodyMat);
@@ -1726,6 +2182,55 @@
         foot.position.set(x, -H/2 - 0.30, z);
         foot.rotation.y = ry;
         wardrobeGroup.add(foot);
+    });
+
+    // ---- BASE FRONT ORNAMENT (gold scroll on lower base) ----
+    const baseOrnY = -H/2 - 0.15;
+    const baseOrnZ = (D + 0.2) / 2 + 0.02;
+    // Central shell motif
+    const shellCurves = [
+        new THREE.CubicBezierCurve3(
+            new THREE.Vector3(-0.15, baseOrnY, baseOrnZ),
+            new THREE.Vector3(-0.08, baseOrnY + 0.08, baseOrnZ),
+            new THREE.Vector3(0.08, baseOrnY + 0.08, baseOrnZ),
+            new THREE.Vector3(0.15, baseOrnY, baseOrnZ)
+        ),
+        new THREE.CubicBezierCurve3(
+            new THREE.Vector3(-0.12, baseOrnY, baseOrnZ),
+            new THREE.Vector3(-0.06, baseOrnY + 0.05, baseOrnZ),
+            new THREE.Vector3(0.06, baseOrnY + 0.05, baseOrnZ),
+            new THREE.Vector3(0.12, baseOrnY, baseOrnZ)
+        ),
+    ];
+    shellCurves.forEach(c => {
+        wardrobeGroup.add(new THREE.Mesh(
+            new THREE.TubeGeometry(c, 20, 0.008, 6, false),
+            goldTrimMat
+        ));
+    });
+    // Side scrolls on base
+    [-1, 1].forEach(side => {
+        const sc = new THREE.CubicBezierCurve3(
+            new THREE.Vector3(side * 0.18, baseOrnY, baseOrnZ),
+            new THREE.Vector3(side * 0.35, baseOrnY + 0.06, baseOrnZ),
+            new THREE.Vector3(side * 0.50, baseOrnY + 0.04, baseOrnZ),
+            new THREE.Vector3(side * 0.55, baseOrnY - 0.02, baseOrnZ)
+        );
+        wardrobeGroup.add(new THREE.Mesh(
+            new THREE.TubeGeometry(sc, 16, 0.007, 6, false),
+            goldTrimMat
+        ));
+        // Curl end
+        const curl = new THREE.CubicBezierCurve3(
+            sc.getPoint(1),
+            new THREE.Vector3(side * 0.58, baseOrnY - 0.05, baseOrnZ),
+            new THREE.Vector3(side * 0.54, baseOrnY - 0.06, baseOrnZ),
+            new THREE.Vector3(side * 0.50, baseOrnY - 0.03, baseOrnZ)
+        );
+        wardrobeGroup.add(new THREE.Mesh(
+            new THREE.TubeGeometry(curl, 10, 0.005, 6, false),
+            goldTrimMat
+        ));
     });
 
     // ---- SIDE FLUTING (vertical grooves on left & right sides, visible from front) ----
@@ -1765,7 +2270,7 @@
     // ---- CLOTHES — Draped fabric with vertex-level folds and movement ----
     // Creates a subdivided plane shaped into a garment silhouette with draping
     function createDrapedCloth(type, w, h) {
-        const segW = 14, segH = 22;
+        const segW = 20, segH = 32;
         const geo = new THREE.PlaneGeometry(w, h, segW, segH);
         const pos = geo.attributes.position;
         const basePositions = new Float32Array(pos.array.length);
@@ -1821,14 +2326,33 @@
             z += 0.012 * Math.sin(nx * Math.PI * 7 + ny * 3 + foldSeed * 2);
             z += 0.006 * Math.sin(nx * Math.PI * 12 + ny * 5 + foldSeed * 0.7);
 
+            // ---- Tertiary micro-creases (fine fabric texture) ----
+            z += 0.004 * Math.sin(nx * Math.PI * 18 + ny * 8 + foldSeed * 3.1);
+            z += 0.003 * Math.sin(nx * Math.PI * 24 + ny * 12 + foldSeed * 1.3);
+
+            // ---- Gravity gather (fabric bunches more toward center bottom) ----
+            const gatherStrength = 0.015 * (1 - ny) * (1 - ny);
+            z += gatherStrength * Math.sin(nx * Math.PI * 5 + foldSeed * 0.5);
+
             // ---- Slight asymmetric lean (not perfectly centered) ----
             z += 0.02 * nx * (1 - ny);
             x += 0.01 * Math.sin(ny * 4 + foldSeed); // slight lateral waviness
+            // Slight twist (fabric doesn't hang perfectly flat)
+            x += 0.008 * Math.sin(ny * 2.5 + foldSeed * 1.7) * (1 - ny);
 
             // ---- Bottom hem wave ----
-            if (ny < 0.08) {
-                const hemT = ny / 0.08;
-                z += 0.02 * (1 - hemT) * Math.sin(nx * Math.PI * 5 + foldSeed);
+            if (ny < 0.12) {
+                const hemT = ny / 0.12;
+                z += 0.025 * (1 - hemT) * Math.sin(nx * Math.PI * 5 + foldSeed);
+                // Hem curl (fabric curls slightly at bottom)
+                z += 0.01 * (1 - hemT) * (1 - hemT);
+                x += 0.008 * (1 - hemT) * Math.sin(nx * Math.PI * 3 + foldSeed * 2);
+            }
+
+            // ---- Shoulder gather (fabric pinches at hanger) ----
+            if (ny > 0.88) {
+                const shoulderT = (ny - 0.88) / 0.12;
+                z -= 0.01 * shoulderT * Math.sin(nx * Math.PI * 6 + foldSeed);
             }
 
             pos.setXYZ(i, x, y, z);
@@ -1870,17 +2394,52 @@
         .map((c, i) => c.disintegrate ? i : -1)
         .filter(i => i >= 0);
 
-    clothData.forEach((c, idx) => {
-        const mat = new THREE.MeshPhysicalMaterial({
-            color: c.color, metalness: 0.0, roughness: 0.92,
-            sheen: 1.0, sheenRoughness: 0.8, sheenColor: new THREE.Color(c.color),
-            envMapIntensity: 0.1,
-            side: THREE.DoubleSide,
+    // Fabric material types for variety
+    const fabricTypes = {
+        silk: (color) => new THREE.MeshPhysicalMaterial({
+            color, metalness: 0.0, roughness: 0.35,
+            sheen: 1.0, sheenRoughness: 0.25, sheenColor: new THREE.Color(color).multiplyScalar(1.3),
+            envMapIntensity: 0.4, side: THREE.DoubleSide,
             transparent: true, opacity: 1.0,
-        });
+            clearcoat: 0.15, clearcoatRoughness: 0.4,
+        }),
+        cotton: (color) => new THREE.MeshPhysicalMaterial({
+            color, metalness: 0.0, roughness: 0.85,
+            sheen: 0.4, sheenRoughness: 0.7, sheenColor: new THREE.Color(color),
+            envMapIntensity: 0.15, side: THREE.DoubleSide,
+            transparent: true, opacity: 1.0,
+        }),
+        velvet: (color) => new THREE.MeshPhysicalMaterial({
+            color, metalness: 0.0, roughness: 0.95,
+            sheen: 1.0, sheenRoughness: 0.5, sheenColor: new THREE.Color(color).multiplyScalar(1.5),
+            envMapIntensity: 0.2, side: THREE.DoubleSide,
+            transparent: true, opacity: 1.0,
+        }),
+        satin: (color) => new THREE.MeshPhysicalMaterial({
+            color, metalness: 0.05, roughness: 0.25,
+            sheen: 1.0, sheenRoughness: 0.15, sheenColor: new THREE.Color(color).multiplyScalar(1.4),
+            envMapIntensity: 0.5, side: THREE.DoubleSide,
+            transparent: true, opacity: 1.0,
+            clearcoat: 0.25, clearcoatRoughness: 0.3,
+        }),
+    };
+
+    // Assign fabric types based on garment type
+    const fabricMap = {
+        dress: ['silk', 'satin', 'silk'],
+        blouse: ['cotton', 'silk', 'cotton', 'satin'],
+        coat: ['velvet', 'cotton'],
+        skirt: ['satin', 'silk', 'cotton'],
+        jacket: ['velvet', 'cotton'],
+    };
+
+    clothData.forEach((c, idx) => {
+        const fabrics = fabricMap[c.type] || ['cotton'];
+        const fabricType = fabrics[idx % fabrics.length];
+        const mat = fabricTypes[fabricType](c.color);
+
         const geo = createDrapedCloth(c.type, c.w, c.h);
         const mesh = new THREE.Mesh(geo, mat);
-        // Stagger Z depth so packed garments overlap naturally
         const zLayer = -0.05 + (idx % 3) * 0.04 - 0.04;
         mesh.position.set(c.x, 1.5 - c.h / 2, zLayer);
         mesh.rotation.y = (Math.random() - 0.5) * 0.08;
@@ -1893,13 +2452,68 @@
         clothMeshes.push(mesh);
     });
 
-    // Hangers (triangles)
+    // Realistic hangers (proper hook + shoulder shape)
+    const hangerMat = new THREE.MeshPhysicalMaterial({
+        color: 0xC8956A, metalness: 0.1, roughness: 0.45,
+        clearcoat: 0.3, clearcoatRoughness: 0.3,
+        envMapIntensity: 0.5,
+    });
+    const hangerHookMat = new THREE.MeshPhysicalMaterial({
+        color: 0xBB7744, metalness: 0.85, roughness: 0.2,
+        clearcoat: 0.5, envMapIntensity: 1.0,
+    });
+
     clothData.forEach(c => {
-        const geo = new THREE.BufferGeometry();
-        geo.setAttribute('position', new THREE.BufferAttribute(
-            new Float32Array([0,0,0, -0.12,-0.12,0, 0.12,-0.12,0]), 3));
-        geo.computeVertexNormals();
-        wardrobeGroup.add((() => { const m = new THREE.Mesh(geo, knobMat); m.position.set(c.x, 1.52, -0.05); return m; })());
+        const hangerGroup = new THREE.Group();
+        hangerGroup.position.set(c.x, 1.52, -0.05);
+
+        // Hook (curved tube)
+        const hookCurve = new THREE.CubicBezierCurve3(
+            new THREE.Vector3(0, 0.08, 0),
+            new THREE.Vector3(0.03, 0.12, 0),
+            new THREE.Vector3(0.03, 0.14, 0),
+            new THREE.Vector3(-0.01, 0.13, 0)
+        );
+        const hookMesh = new THREE.Mesh(
+            new THREE.TubeGeometry(hookCurve, 12, 0.008, 6, false),
+            hangerHookMat
+        );
+        hangerGroup.add(hookMesh);
+
+        // Shoulder bar (curved wooden bar)
+        const shoulderW = Math.min(c.w * 0.85, 0.22);
+        const shoulderCurve = new THREE.CubicBezierCurve3(
+            new THREE.Vector3(-shoulderW, -0.06, 0),
+            new THREE.Vector3(-shoulderW * 0.5, 0.02, 0),
+            new THREE.Vector3(shoulderW * 0.5, 0.02, 0),
+            new THREE.Vector3(shoulderW, -0.06, 0)
+        );
+        const shoulderMesh = new THREE.Mesh(
+            new THREE.TubeGeometry(shoulderCurve, 16, 0.012, 8, false),
+            hangerMat
+        );
+        hangerGroup.add(shoulderMesh);
+
+        // Center piece connecting hook to shoulder
+        const centerBar = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.01, 0.012, 0.08, 8),
+            hangerMat
+        );
+        centerBar.position.set(0, 0.04, 0);
+        hangerGroup.add(centerBar);
+
+        // Bottom bar for pants/skirts (on some hangers)
+        if (c.type === 'skirt' || c.type === 'blouse') {
+            const bottomBar = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.006, 0.006, shoulderW * 1.4, 8),
+                hangerMat
+            );
+            bottomBar.rotation.z = Math.PI / 2;
+            bottomBar.position.set(0, -0.10, 0);
+            hangerGroup.add(bottomBar);
+        }
+
+        wardrobeGroup.add(hangerGroup);
     });
 
     // ---- DOORS — Plain with rectangular panel trimming (matching reference image) ----
@@ -1915,32 +2529,56 @@
         door.position.set(contentX, 0, 0);
         group.add(door);
 
-        // ---- Rectangular panel trim (raised border frame) ----
-        const trimInset = 0.12;  // inset from door edge
+        // ---- Single panel trim with inner detail frame ----
+        const trimInset = 0.12;
         const trimW = doorW - trimInset * 2;
         const trimH = doorH - trimInset * 2;
-        const trimThick = 0.06;  // how far trim sticks out
-        const trimDepth = 0.025; // thickness of the trim strips
+        const trimThick = 0.06;
+        const trimDepth = 0.025;
+        const zOff = 0.04 + trimThick / 2;
 
-        // Top trim strip
+        // Outer frame
         const topTrim = box(trimW, trimDepth, trimThick, panelMat);
-        topTrim.position.set(contentX, trimH/2, 0.04 + trimThick/2);
+        topTrim.position.set(contentX, trimH / 2, zOff);
         group.add(topTrim);
-
-        // Bottom trim strip
         const botTrim = box(trimW, trimDepth, trimThick, panelMat);
-        botTrim.position.set(contentX, -trimH/2, 0.04 + trimThick/2);
+        botTrim.position.set(contentX, -trimH / 2, zOff);
         group.add(botTrim);
-
-        // Left trim strip
         const leftTrim = box(trimDepth, trimH, trimThick, panelMat);
-        leftTrim.position.set(contentX - trimW/2, 0, 0.04 + trimThick/2);
+        leftTrim.position.set(contentX - trimW / 2, 0, zOff);
         group.add(leftTrim);
-
-        // Right trim strip
         const rightTrim = box(trimDepth, trimH, trimThick, panelMat);
-        rightTrim.position.set(contentX + trimW/2, 0, 0.04 + trimThick/2);
+        rightTrim.position.set(contentX + trimW / 2, 0, zOff);
         group.add(rightTrim);
+
+        // Inner inset frame (creates depth layering)
+        const innerInset = 0.07;
+        const iW = trimW - innerInset * 2;
+        const iH = trimH - innerInset * 2;
+        const iZ = zOff + 0.02;
+        const iTrimD = 0.018;
+        const iTrimThick = 0.035;
+        const iTop = box(iW, iTrimD, iTrimThick, bodyEdge);
+        iTop.position.set(contentX, iH / 2, iZ);
+        group.add(iTop);
+        const iBot = box(iW, iTrimD, iTrimThick, bodyEdge);
+        iBot.position.set(contentX, -iH / 2, iZ);
+        group.add(iBot);
+        const iLeft = box(iTrimD, iH, iTrimThick, bodyEdge);
+        iLeft.position.set(contentX - iW / 2, 0, iZ);
+        group.add(iLeft);
+        const iRight = box(iTrimD, iH, iTrimThick, bodyEdge);
+        iRight.position.set(contentX + iW / 2, 0, iZ);
+        group.add(iRight);
+
+        // Corner rosettes (small squares at the inner frame corners)
+        const cornerSize = 0.04;
+        [[-1,1],[1,1],[1,-1],[-1,-1]].forEach(([sx, sy]) => {
+            const corner = box(cornerSize, cornerSize, iTrimThick + 0.01, panelMat);
+            corner.position.set(contentX + sx * iW / 2, sy * iH / 2, iZ + 0.005);
+            corner.rotation.z = Math.PI / 4;
+            group.add(corner);
+        });
 
         // Keyhole escutcheon (dark oval plate + keyhole shape)
         const keyholeX = isLeft ? contentX + doorW/2 - 0.22 : contentX - doorW/2 + 0.22;
@@ -1963,10 +2601,170 @@
         keyhole.position.set(keyholeX, 0.12, 0.075);
         group.add(keyhole);
 
-        // Small round knob below keyhole
-        const knob = new THREE.Mesh(new THREE.SphereGeometry(0.03, 10, 10), knobMat);
-        knob.position.set(keyholeX, 0.04, 0.06);
+        // Ornate door knob — larger with decorative rosette backplate
+        const knobBackplate = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.06, 0.06, 0.012, 24),
+            goldTrimMat
+        );
+        knobBackplate.rotation.x = Math.PI / 2;
+        knobBackplate.position.set(keyholeX, 0.0, 0.055);
+        group.add(knobBackplate);
+        // Rosette petals on backplate
+        for (let p = 0; p < 8; p++) {
+            const angle = (p / 8) * Math.PI * 2;
+            const petal = new THREE.Mesh(
+                new THREE.SphereGeometry(0.015, 8, 6),
+                goldTrimMat
+            );
+            petal.scale.set(1.4, 0.6, 0.3);
+            petal.position.set(
+                keyholeX + Math.cos(angle) * 0.04,
+                0.0 + Math.sin(angle) * 0.04,
+                0.065
+            );
+            petal.rotation.z = angle;
+            group.add(petal);
+        }
+        // Central knob (polished brass ball)
+        const knob = new THREE.Mesh(
+            new THREE.SphereGeometry(0.025, 16, 16),
+            new THREE.MeshPhysicalMaterial({
+                color: 0xD4A76A, metalness: 0.9, roughness: 0.12,
+                clearcoat: 0.8, clearcoatRoughness: 0.08,
+                envMapIntensity: 1.8,
+            })
+        );
+        knob.position.set(keyholeX, 0.0, 0.075);
         group.add(knob);
+
+        // ---- Interior door face — ornate vine/scroll carvings ----
+        const interiorZ = -0.05; // back face of door
+
+        // Vertical vine stems (two main stems running top to bottom)
+        function addVineScroll(startX, mirror) {
+            const dir = mirror ? -1 : 1;
+            // Main central vine
+            const vinePts = [];
+            const segments = 12;
+            for (let s = 0; s <= segments; s++) {
+                const t = s / segments;
+                const y = (t - 0.5) * (doorH * 0.8);
+                const x = startX + dir * Math.sin(t * Math.PI * 2.5) * 0.06;
+                vinePts.push(new THREE.Vector3(x, y, interiorZ));
+            }
+            const vineCurve = new THREE.CatmullRomCurve3(vinePts);
+            const vineTube = new THREE.Mesh(
+                new THREE.TubeGeometry(vineCurve, 40, 0.008, 6, false),
+                goldTrimMat
+            );
+            group.add(vineTube);
+
+            // Leaf pairs branching off the vine
+            for (let l = 0; l < 8; l++) {
+                const t = 0.08 + l * 0.11;
+                const pt = vineCurve.getPoint(t);
+                const leafSide = (l % 2 === 0) ? 1 : -1;
+
+                // Leaf branch curve
+                const branchCurve = new THREE.CubicBezierCurve3(
+                    pt.clone(),
+                    new THREE.Vector3(pt.x + dir * leafSide * 0.04, pt.y + 0.03, interiorZ),
+                    new THREE.Vector3(pt.x + dir * leafSide * 0.08, pt.y + 0.05, interiorZ),
+                    new THREE.Vector3(pt.x + dir * leafSide * 0.10, pt.y + 0.02, interiorZ)
+                );
+                const branchTube = new THREE.Mesh(
+                    new THREE.TubeGeometry(branchCurve, 12, 0.005, 6, false),
+                    goldTrimMat
+                );
+                group.add(branchTube);
+
+                // Leaf shape (flattened sphere)
+                const leaf = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.018, 8, 6),
+                    goldTrimMat
+                );
+                leaf.scale.set(1.8, 0.9, 0.25);
+                const leafPt = branchCurve.getPoint(0.85);
+                leaf.position.copy(leafPt);
+                leaf.rotation.z = leafSide * 0.5;
+                group.add(leaf);
+
+                // Small curl at branch end
+                const curlCurve = new THREE.CubicBezierCurve3(
+                    branchCurve.getPoint(1),
+                    new THREE.Vector3(pt.x + dir * leafSide * 0.11, pt.y + 0.0, interiorZ),
+                    new THREE.Vector3(pt.x + dir * leafSide * 0.09, pt.y - 0.02, interiorZ),
+                    new THREE.Vector3(pt.x + dir * leafSide * 0.07, pt.y - 0.01, interiorZ)
+                );
+                const curlTube = new THREE.Mesh(
+                    new THREE.TubeGeometry(curlCurve, 8, 0.004, 6, false),
+                    goldTrimMat
+                );
+                group.add(curlTube);
+            }
+
+            // Top flourish — larger scroll
+            const topPt = vineCurve.getPoint(0.95);
+            const topScroll = new THREE.CubicBezierCurve3(
+                topPt.clone(),
+                new THREE.Vector3(topPt.x + dir * 0.06, topPt.y + 0.1, interiorZ),
+                new THREE.Vector3(topPt.x + dir * 0.10, topPt.y + 0.08, interiorZ),
+                new THREE.Vector3(topPt.x + dir * 0.08, topPt.y + 0.03, interiorZ)
+            );
+            group.add(new THREE.Mesh(
+                new THREE.TubeGeometry(topScroll, 16, 0.006, 6, false),
+                goldTrimMat
+            ));
+
+            // Bottom flourish
+            const botPt = vineCurve.getPoint(0.05);
+            const botScroll = new THREE.CubicBezierCurve3(
+                botPt.clone(),
+                new THREE.Vector3(botPt.x + dir * 0.05, botPt.y - 0.08, interiorZ),
+                new THREE.Vector3(botPt.x + dir * 0.09, botPt.y - 0.06, interiorZ),
+                new THREE.Vector3(botPt.x + dir * 0.07, botPt.y - 0.01, interiorZ)
+            );
+            group.add(new THREE.Mesh(
+                new THREE.TubeGeometry(botScroll, 16, 0.006, 6, false),
+                goldTrimMat
+            ));
+
+            // Small flower at top
+            for (let p = 0; p < 5; p++) {
+                const angle = (p / 5) * Math.PI * 2;
+                const flower = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.012, 8, 6),
+                    goldTrimMat
+                );
+                flower.scale.set(1.3, 0.6, 0.25);
+                flower.position.set(
+                    topPt.x + dir * 0.04 + Math.cos(angle) * 0.02,
+                    topPt.y + 0.06 + Math.sin(angle) * 0.02,
+                    interiorZ - 0.005
+                );
+                flower.rotation.z = angle;
+                group.add(flower);
+            }
+        }
+
+        // Two vine scrolls on interior — offset from center
+        addVineScroll(contentX - doorW * 0.2, false);
+        addVineScroll(contentX + doorW * 0.2, true);
+
+        // Interior border trim (gold line along inner door edges)
+        const ibInset = 0.08;
+        const ibW = doorW - ibInset * 2;
+        const ibH = doorH - ibInset * 2;
+        const ibZ = interiorZ - 0.005;
+        const ibThick = 0.012;
+        // Top
+        group.add((() => { const m = box(ibW, ibThick, 0.02, goldTrimMat); m.position.set(contentX, ibH/2, ibZ); return m; })());
+        // Bottom
+        group.add((() => { const m = box(ibW, ibThick, 0.02, goldTrimMat); m.position.set(contentX, -ibH/2, ibZ); return m; })());
+        // Left
+        group.add((() => { const m = box(ibThick, ibH, 0.02, goldTrimMat); m.position.set(contentX - ibW/2, 0, ibZ); return m; })());
+        // Right
+        group.add((() => { const m = box(ibThick, ibH, 0.02, goldTrimMat); m.position.set(contentX + ibW/2, 0, ibZ); return m; })());
 
         return group;
     }
@@ -2310,7 +3108,7 @@
         }
 
         // Wardrobe gentle float
-        wardrobeGroup.rotation.y = Math.sin(time * 0.3) * 0.06;
+        wardrobeGroup.rotation.y = -0.08 + Math.sin(time * 0.3) * 0.06;
         wardrobeGroup.position.y = -0.3 + Math.sin(time * 0.5) * 0.08;
 
         // ---- FABRIC ANIMATION: per-vertex draping movement ----
@@ -2560,6 +3358,57 @@
             });
         }
 
+        // ===== HERO EMAIL SIGNUP =====
+        const heroForm = document.getElementById('hero-signup-form');
+        const heroEmail = document.getElementById('hero-signup-email');
+        const heroSuccess = document.getElementById('hero-signup-success');
+        const heroError = document.getElementById('hero-signup-error');
+
+        if (heroForm) {
+            heroForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = heroEmail.value.trim().toLowerCase();
+                if (!email) return;
+
+                heroForm.querySelector('.hero-signup-btn').disabled = true;
+                heroForm.querySelector('.hero-signup-btn').textContent = 'Submitting...';
+                heroError.style.display = 'none';
+
+                backupToSheets(email);
+
+                if (!_supabase) {
+                    heroForm.style.display = 'none';
+                    heroSuccess.style.display = 'block';
+                    return;
+                }
+
+                try {
+                    const { error } = await _supabase
+                        .from('founding_members')
+                        .insert({ email: email });
+
+                    if (error) {
+                        if (error.code === '23505') {
+                            heroError.textContent = "You're already on the list!";
+                            heroError.style.display = 'block';
+                            heroForm.querySelector('.hero-signup-btn').disabled = false;
+                            heroForm.querySelector('.hero-signup-btn').textContent = 'Get Early Access';
+                        } else {
+                            heroForm.style.display = 'none';
+                            heroSuccess.style.display = 'block';
+                        }
+                    } else {
+                        heroForm.style.display = 'none';
+                        heroSuccess.style.display = 'block';
+                        fetchAndUpdateCounter().then(animateCounter);
+                    }
+                } catch (err) {
+                    heroForm.style.display = 'none';
+                    heroSuccess.style.display = 'block';
+                }
+            });
+        }
+
         // ===== LIVE COUNTER =====
         var counterTarget = 73; // fallback
         var counterReady = false;
@@ -2572,6 +3421,9 @@
                     .select('*', { count: 'exact', head: true });
                 if (!error && count !== null) {
                     counterTarget = Math.max(0, 100 - count);
+                    // Update nav counter too
+                    var navNum = document.getElementById('nav-counter-num');
+                    if (navNum) navNum.textContent = counterTarget;
                 }
             } catch (e) { /* use fallback */ }
             counterReady = true;
