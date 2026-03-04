@@ -1354,7 +1354,7 @@
         @media (max-width: 768px) {
             #scene-canvas {
                 position: absolute;
-                height: 45vh;
+                height: 38vh;
                 background: var(--bg);
             }
             .god-ray-1, .god-ray-2, .god-ray-3 {
@@ -1365,9 +1365,8 @@
             .nav-links { gap: 16px; }
             .nav-links a { font-size: 13px; }
             .hero {
-                padding: 24px;
-                padding-right: 24px;
-                padding-top: 45vh;
+                padding: 16px 20px;
+                padding-top: 38vh;
                 align-items: center;
                 text-align: center;
                 min-height: auto;
@@ -1382,7 +1381,7 @@
                 bottom: auto;
                 left: auto;
                 transform: none;
-                margin-top: 32px;
+                margin-top: 16px;
                 animation: none;
             }
             .scroll-cta:hover {
@@ -1717,7 +1716,7 @@
 
     const scene = new THREE.Scene();
 
-    const canvasH = isMobile ? window.innerHeight * 0.45 : window.innerHeight;
+    const canvasH = isMobile ? window.innerHeight * 0.38 : window.innerHeight;
     const camera = new THREE.PerspectiveCamera(50, window.innerWidth / canvasH, 0.1, 100);
     // Camera centered; wardrobe offset to the right in world space
     camera.position.set(0, isMobile ? 1.0 : 0.5, isMobile ? 11 : 9.5);
