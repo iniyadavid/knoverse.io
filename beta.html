@@ -1354,23 +1354,40 @@
         @media (max-width: 768px) {
             #scene-canvas {
                 position: absolute;
-                height: 38vh;
+                height: 30vh;
                 background: var(--bg);
             }
             .god-ray-1, .god-ray-2, .god-ray-3 {
                 left: 50%;
                 top: 20%;
             }
-            nav { padding: 14px 20px; }
+            nav { padding: 10px 20px; }
             .nav-links { gap: 16px; }
             .nav-links a { font-size: 13px; }
             .hero {
-                padding: 16px 20px;
-                padding-top: 38vh;
+                padding: 8px 20px;
+                padding-top: 30vh;
                 align-items: center;
                 text-align: center;
                 min-height: auto;
                 justify-content: flex-start;
+            }
+            .hero-exclusive {
+                margin-bottom: 4px;
+            }
+            .hero-exclusive .hero-line-2 {
+                margin-top: 2px;
+            }
+            .hero-line-3-wrapper {
+                margin-top: 4px;
+            }
+            .hero h1 {
+                font-size: 38px;
+                margin-bottom: 4px;
+            }
+            .hero-tagline {
+                font-size: 13px;
+                margin-bottom: 8px;
             }
             .hero-exclusive, .hero h1, .hero-tagline, .hero-subtext, .scroll-cta {
                 position: relative;
@@ -1381,7 +1398,7 @@
                 bottom: auto;
                 left: auto;
                 transform: none;
-                margin-top: 16px;
+                margin-top: 8px;
                 animation: none;
             }
             .scroll-cta:hover {
@@ -1396,18 +1413,33 @@
             .cta-input { width: 100%; max-width: 320px; }
             .hero-signup-card {
                 max-width: 100%;
-                padding: 20px 18px 18px;
-                margin-top: 20px;
+                padding: 14px 16px 12px;
+                margin-top: 10px;
+            }
+            .hero-cta-subtext {
+                font-size: 12px;
+                line-height: 1.5;
+                margin-bottom: 4px;
             }
             .hero-signup {
                 flex-direction: column;
                 width: 100%;
+                margin-top: 8px;
+                gap: 8px;
             }
             .hero-signup-input {
                 width: 100%;
+                padding: 12px 16px;
+                font-size: 14px;
             }
             .hero-signup-btn {
                 width: 100%;
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+            .hero-signup-note {
+                font-size: 11px;
+                margin-top: 6px;
             }
             .different-section { padding: 60px 20px 40px; }
             .statement-card { padding: 18px 20px 18px 23px; }
@@ -1716,7 +1748,7 @@
 
     const scene = new THREE.Scene();
 
-    const canvasH = isMobile ? window.innerHeight * 0.38 : window.innerHeight;
+    const canvasH = isMobile ? window.innerHeight * 0.30 : window.innerHeight;
     const camera = new THREE.PerspectiveCamera(50, window.innerWidth / canvasH, 0.1, 100);
     // Camera centered; wardrobe offset to the right in world space
     camera.position.set(0, isMobile ? 1.8 : 0.5, isMobile ? 11 : 9.5);
@@ -3253,7 +3285,7 @@
         const w = window.innerWidth;
         const h = window.innerHeight;
         const mobile = w < 768;
-        const ch = mobile ? h * 0.38 : h;
+        const ch = mobile ? h * 0.30 : h;
         camera.aspect = w / ch;
         camera.position.set(0, mobile ? 1.8 : 0.5, mobile ? 11 : 9.5);
         camera.lookAt(0, mobile ? 0.8 : -0.2, 0);
