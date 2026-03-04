@@ -1395,6 +1395,21 @@
             .cta-card { padding: 40px 24px; }
             .cta-form { flex-direction: column; align-items: center; }
             .cta-input { width: 100%; max-width: 320px; }
+            .hero-signup-card {
+                max-width: 100%;
+                padding: 20px 18px 18px;
+                margin-top: 20px;
+            }
+            .hero-signup {
+                flex-direction: column;
+                width: 100%;
+            }
+            .hero-signup-input {
+                width: 100%;
+            }
+            .hero-signup-btn {
+                width: 100%;
+            }
             .different-section { padding: 60px 20px 40px; }
             .statement-card { padding: 18px 20px 18px 23px; }
             .ticker-content span { font-size: 13px; padding: 0 16px; }
@@ -3107,8 +3122,12 @@
             updateNebula(delta * particleFade);
         }
 
-        // Wardrobe gentle float
-        wardrobeGroup.rotation.y = -0.08 + Math.sin(time * 0.3) * 0.06;
+        // Wardrobe gentle float — face forward on mobile
+        if (isMobile) {
+            wardrobeGroup.rotation.y = Math.sin(time * 0.3) * 0.02;
+        } else {
+            wardrobeGroup.rotation.y = -0.08 + Math.sin(time * 0.3) * 0.06;
+        }
         wardrobeGroup.position.y = -0.3 + Math.sin(time * 0.5) * 0.08;
 
         // ---- FABRIC ANIMATION: per-vertex draping movement ----
